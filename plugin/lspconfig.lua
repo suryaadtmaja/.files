@@ -7,20 +7,20 @@ local protocol = require('vim.lsp.protocol')
 
 
 local function on_new_config(new_config, new_root_dir)
-	local function get_typescript_server_path(root_dir)
-		local project_root = lspconfig_util.find_node_modules_ancestor(root_dir)
-		return project_root and
-		    (lspconfig_util.path.join(project_root, 'node_modules', 'typescript', 'lib', 'tsserverlibrary.js'))
-		    or ''
-	end
+  local function get_typescript_server_path(root_dir)
+    local project_root = lspconfig_util.find_node_modules_ancestor(root_dir)
+    return project_root and
+        (lspconfig_util.path.join(project_root, 'node_modules', 'typescript', 'lib', 'tsserverlibrary.js'))
+        or ''
+  end
 
-	if
-	    new_config.init_options
-	    and new_config.init_options.typescript
-	    and new_config.init_options.typescript.tsdk == ''
-	then
-		new_config.init_options.typescript.tsdk = get_typescript_server_path(new_root_dir)
-	end
+  if
+      new_config.init_options
+      and new_config.init_options.typescript
+      and new_config.init_options.typescript.tsdk == ''
+  then
+    new_config.init_options.typescript.tsdk = get_typescript_server_path(new_root_dir)
+  end
 end
 
 local volar_cmd = { 'vue-language-server', '--stdio' }
@@ -62,7 +62,7 @@ nvim_lsp.volar_api = {
     }
 }
 
-require'lspconfig'.volar.setup{}
+require 'lspconfig'.volar.setup {}
 
 lspconfig_configs.volar_doc = {
     default_config = {
@@ -91,7 +91,7 @@ lspconfig_configs.volar_doc = {
     }
 }
 
-require'lspconfig'.volar.setup{}
+require 'lspconfig'.volar.setup {}
 
 lspconfig_configs.volar_html = {
     default_config = {
@@ -126,47 +126,47 @@ nvim_lsp.volar_html.setup {}
 
 local augroup_format = vim.api.nvim_create_augroup("Format", { clear = true })
 local enable_format_on_save = function(_, bufnr)
-	vim.api.nvim_clear_autocmds({ group = augroup_format, buffer = bufnr })
-	vim.api.nvim_create_autocmd("BufWritePre", {
-	    group = augroup_format,
-	    buffer = bufnr,
-	    callback = function()
-		    vim.lsp.buf.format({ bufnr = bufnr })
-	    end,
-	})
+  vim.api.nvim_clear_autocmds({ group = augroup_format, buffer = bufnr })
+  vim.api.nvim_create_autocmd("BufWritePre", {
+      group = augroup_format,
+      buffer = bufnr,
+      callback = function()
+        vim.lsp.buf.format({ bufnr = bufnr })
+      end,
+  })
 end
 
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
 local on_attach = function(client, bufnr)
-	local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+  local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
 
-	--Enable completion triggered by <c-x><c-o>
-	--local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
-	--buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
+  --Enable completion triggered by <c-x><c-o>
+  --local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
+  --buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
 
-	-- Mappings.
-	local opts = { noremap = true, silent = true }
+  -- Mappings.
+  local opts = { noremap = true, silent = true }
 
-	-- See `:help vim.lsp.*` for documentation on any of the below functions
-	buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-	--buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
-	buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-	--buf_set_keymap('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
-	vim.api.nvim_create_autocmd("CursorHold", {
-	    buffer = bufnr,
-	    callback = function()
-		    local opts_ = {
-		        focusable = false,
-		        close_events = { "BufLeave", "CursorMoved", "InsertEnter", "FocusLost" },
-		        border = 'rounded',
-		        source = 'always',
-		        prefix = ' ',
-		        scope = 'cursor',
-		    }
-		    vim.diagnostic.open_float(nil, opts_)
-	    end
-	})
+  -- See `:help vim.lsp.*` for documentation on any of the below functions
+  buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+  buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
+  buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+  buf_set_keymap('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
+  vim.api.nvim_create_autocmd("CursorHold", {
+      buffer = bufnr,
+      callback = function()
+        local opts_ = {
+            focusable = false,
+            close_events = { "BufLeave", "CursorMoved", "InsertEnter", "FocusLost" },
+            border = 'rounded',
+            source = 'always',
+            prefix = ' ',
+            scope = 'cursor',
+        }
+        vim.diagnostic.open_float(nil, opts_)
+      end
+  })
 end
 
 protocol.CompletionItemKind = {
@@ -220,8 +220,8 @@ nvim_lsp.sourcekit.setup {
 
 nvim_lsp.sumneko_lua.setup {
     on_attach = function(client, bufnr)
-	    on_attach(client, bufnr)
-	    enable_format_on_save(client, bufnr)
+      on_attach(client, bufnr)
+      enable_format_on_save(client, bufnr)
     end,
     capabilities = capabilities,
     settings = {
@@ -243,11 +243,11 @@ nvim_lsp.sumneko_lua.setup {
 local tw_highlight = require('tailwind-highlight')
 nvim_lsp.tailwindcss.setup({
     on_attach = function(client, bufnr)
-	    tw_highlight.setup(client, bufnr, {
-	        single_column = false,
-	        mode = 'background',
-	        debounce = 200,
-	    })
+      tw_highlight.setup(client, bufnr, {
+          single_column = false,
+          mode = 'background',
+          debounce = 200,
+      })
     end,
     capabilities = capabilities
 })
@@ -268,8 +268,8 @@ vim.cmd [[autocmd! CursorHold,CursorHoldI * lua vim.diagnostic.open_float(nil, {
 -- Diagnostic symbols in the sign column (gutter)
 local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
 for type, icon in pairs(signs) do
-	local hl = "DiagnosticSign" .. type
-	vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
+  local hl = "DiagnosticSign" .. type
+  vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
 end
 
 vim.diagnostic.config({
