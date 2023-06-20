@@ -191,6 +191,11 @@ _G.packer_plugins = {
     path = "/Users/filsuck/.local/share/nvim/site/pack/packer/start/rose-pine",
     url = "https://github.com/rose-pine/neovim"
   },
+  ["rust-tools.nvim"] = {
+    loaded = true,
+    path = "/Users/filsuck/.local/share/nvim/site/pack/packer/start/rust-tools.nvim",
+    url = "https://github.com/simrat39/rust-tools.nvim"
+  },
   ["tailwind-highlight.nvim"] = {
     loaded = true,
     path = "/Users/filsuck/.local/share/nvim/site/pack/packer/start/tailwind-highlight.nvim",
