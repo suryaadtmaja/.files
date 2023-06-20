@@ -41,6 +41,7 @@ return require('packer').startup(function(use)
       use 'princejoogie/tailwind-highlight.nvim'
       use 'glepnir/lspsaga.nvim' -- LSP UIs
       use 'L3MON4D3/LuaSnip'
+      use 'simrat39/rust-tools.nvim'
 
 
       -- Toggle Terminal
